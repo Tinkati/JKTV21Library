@@ -7,20 +7,18 @@ package entity;
 
 /**
  *
- * @author Melnikov
+ * @author pupil
  */
-public class Reader {
-     private String firstname;
+public class Author {
+    private String firstname;
     private String lastname;
-    private String phone;
 
-    public Reader() {
+    public Author() {
     }
 
-    public Reader(String firstname, String lastname, String phone) {
+    public Author(String firstname, String lastname) {
         this.firstname = firstname;
         this.lastname = lastname;
-        this.phone = phone;
     }
 
     public String getLastname() {
@@ -39,20 +37,9 @@ public class Reader {
         this.firstname = firstname;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     @Override
     public String toString() {
-        return "Reader{" 
-                + "firstname=" + firstname 
-                + ", lastname=" + lastname 
-                + ", phone=" + phone 
-                + '}';
+        return "Author{" + "firstname=" + firstname + ", lastname=" + lastname + '}';
     }
+ 
 }
