@@ -15,61 +15,63 @@ import java.util.Scanner;
  * @author pupil
  */
 public class HistoryManager {
-    private final Scanner scanner;
-    private final ReaderManager readerManager;
-    private final BookManager bookManager;
-
-    public HistoryManager() {
-        scanner = new Scanner(System.in);
-        readerManager = new ReaderManager();
-        bookManager = new BookManager();
-    }
-
-    public History takeOnBook(Reader[] readers, Book[] books){
-        //из списка читателей выбрать номер читателя
-        //из списка книг выбрать номер книги
-        //инициировать поля History
-        //добавить дату выдачи книги
-        System.out.println("Список читателей:");
-        readerManager.printListReaders(readers);
-        System.out.print("Выберите номер читателя из списка:");
-        int numberReader = scanner.nextInt(); scanner.nextLine();
-
-        System.out.println("Список книг:");
-        bookManager.printListBooks(books);
-        System.out.print("Выберите номер книги из списка:");
-        int numberBook = scanner.nextInt(); scanner.nextLine();
+    private final Scanner scanner = new Scanner(System.in);
+    
+    
+    public History takeOnBook(Book[] books,Reader[] readers){
         History history = new History();
+        // Вывести нумерованный список читателей
+        // Выбрать указанного читателя из массива
+        // Выбрать нумерованный список книг
+        // Выбрать указанную книгу из массива
+        // Вставить читателя и книгу в history
+        // Добавить дату выдачи книги в history
+        System.out.println("Список читателей: ");
+        ReaderManager readerManager = new ReaderManager();
+        readerManager.printListReaders(readers);
+        System.out.print("Выберите номер читателя из списка: ");
+        int numberReader = scanner.nextInt(); scanner.nextLine();
+        
+        System.out.println("Список книг: ");
+        BookManager bookManager = new BookManager();
+        bookManager.printListBooks(books);
+        System.out.print("Выберите номер книги из списка: ");
+        int numberBook = scanner.nextInt(); scanner.nextLine();
+        
         history.setBook(books[numberBook - 1]);
         history.setReader(readers[numberReader - 1]);
         history.setTakeOnBook(new GregorianCalendar().getTime());
         return history;
     }
-    public void printListReadingBooks(History[] histories) {
-        SimpleDateFormat sdf =new SimpleDateFormat("dd.MM.yyyy");
-        for(int i = 0; i < histories.length; i++) {
-            History history = histories[i];
-            if(history.getReturnBook() == null)
-            System.out.printf("%d. %s. Выдана: %s. Читает: %s %s. Телефон: %s%n"
-            ,i+1
-            ,history.getBook().getTitle()
-            ,sdf.format(history.getTakeOnBook())
-            ,history.getReader().getFirstname()
-            ,history.getReader().getLastname()
-            ,history.getReader().getPhone()
-            );
+
+    public void printListTakeOnBooks(History[] histories){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        for (int i = 0; i < histories.length; i++) {
+            if(histories[i].getReturnBook() == null && histories[i].getTakeOnBook() != null){
+                try {
+                    System.out.printf("%d. %s. Выдана: %s. Книгу читает: %s %s%n"
+                        ,i+1
+                        ,histories[i].getBook().getTitle()
+                        ,sdf.format(histories[i].getTakeOnBook())
+                        ,histories[i].getReader().getFirstname()
+                        ,histories[i].getReader().getLastname()
+                    );
+                } catch (Exception e) {
+                    System.out.println("Неправильный формат даты!");
+                    return;
+                }
+                
+            }
         }
     }
-
-    public History[] returnBook(History[] histories) {
-       
-        //выбрать номер истории с выданной книги из списка
-        //прописать дату возврата в историю
-        System.out.println("Список выбранных книг:");
-        this.printListReadingBooks(histories);
-        System.out.println("Выберите номер возвращаемой книги из списка:");
-        int numberHistory = scanner.nextInt();scanner.nextLine();
-        histories[numberHistory - 1].setReturnBook(new GregorianCalendar().getTime());
+    public History[] returnBook(History[] histories){
+        //Выбрать номер книги из списка выданных книг
+        //В выбранную книгу добавить дату возврата
+        System.out.println("Список выданных книг:");
+        this.printListTakeOnBooks(histories);
+        System.out.print("Выберите номер книги для возврата: ");
+        int numberToReturnBook = scanner.nextInt(); scanner.nextLine();
+        histories[numberToReturnBook - 1].setReturnBook(new GregorianCalendar().getTime());
         return histories;
     }
 }

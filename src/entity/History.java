@@ -10,7 +10,7 @@ import java.util.Date;
  * @author Melnikov
  */
 public class History {
-     private Reader reader;
+    private Reader reader;
     private Book book;
     private Date takeOnBook;
     private Date returnBook;
